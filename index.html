@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+  <meta charset="utf-8">
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Marché BIM</title>
+  <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+  <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+
+     <!-- BOOTSTRAP JS Module -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <!-- BOOTSTRAP CSS Module-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> 
+    
+    
+  <style>
+       
+      
+    body {
+      background-color: #eee;
+    }
+      
+    .container {
+      display: grid;
+      /*grid-template-columns: repeat(6, 1fr);*/
+      /*width: 100%;*/
+      grid-template-columns: 200px;
+      grid-auto-columns: auto; /*1200px*/
+      grid-auto-rows: minmax(100px, auto);
+      grid-gap: 1em;
+      margin-top: 1em;
+      margin-left: 0.5em;
+      margin-right: 0.5em;
+      }
+    .container > div {
+      box-shadow: 0px 5px 10px #ccc;
+      padding: 10px;
+    }
+     
+/*EN-TETE DIV*/
+      .titre{
+      color: white;
+      background-color:dimgrey;
+      grid-column: 1/3;
+      grid-row: 1;
+        }
+        
+      .logo{
+        float: left;
+        position: relative;
+        top: 10px;
+        left: 10px;
+        z-index: 1;
+      }
+      
+/*TITRE*/
+      h1{
+        position: relative;
+        top: 10px;
+        left: 30px;
+        font-size: 20px;
+      }   
+      
+/*SYSTEME DIV*/
+    .systeme {
+      background-color: #fff;
+      grid-column: 1/2;
+      grid-row: 2/6;
+        }   
+      
+      
+    .fru{
+        color: white;
+        background-color: #FACC06;
+        border-color: darkgrey;
+        cursor: pointer;
+        border-radius: 5px;
+        padding: 5px 10px;
+        font-size: 15px;
+        position:relative;
+        top: 15px;
+        left: 10px;
+        }
+      
+    .leg{
+        color: white;
+        background-color:darkgreen;
+        border-color: darkgrey;
+        cursor: pointer;
+        border-radius: 5px;
+        padding: 5px 10px;
+        font-size: 15px;
+        position:relative;
+        top: 20px;
+        left: 10px;
+        }
+      
+    .poi{
+        color: white;
+        background-color:aquamarine;
+        border-color: darkgrey;
+        cursor: pointer;
+        border-radius: 5px;
+        padding: 5px 10px;
+        font-size: 15px;
+        position:relative;
+        top: 25px;
+        left: 10px;
+        }
+      
+    
+      
+/*EQUIPEMENT DIV*/   
+    .equipement {
+      background-color: #fff;
+      grid-column: 2/3;
+      grid-row: 2/3;
+        }      
+    
+      
+        .syst{
+        position:relative;
+        top: 18px;
+        left: 5px;
+        }    
+      
+     .saisie{
+        background-color: aliceblue;
+        padding: 5px 10px;
+        font-size: 15px;
+        position:relative;
+        top: -24px;
+        left: 30px;
+        }      
+
+     .rech{
+        color: white;
+        background-color: dimgray;
+        border-color: darkgrey;
+        cursor: pointer;
+        border-radius: 5px;
+        padding: 5px 10px;
+        font-size: 15px;
+        position:relative;
+        top: -24px;
+        left: 30px;
+        }
+      
+      .equip{   
+          float:left;
+      }
+      
+      .liens{
+          float:right;
+          position:relative;
+          right:10px;
+      }
+      
+/*RESULTATS DIV*/   
+    .resultats {
+      background-color: #fff;
+      grid-column: 2/3;
+      grid-row: 3/6;
+        }      
+        
+
+
+  </style>
+  <py-env>
+    - paths:
+      - ./class_categ.json
+    - pandas
+  </py-env>
+    
+</head>
+    
+<body>
+    
+<div class="container">    
+    <div class="titre" id="title">
+    <a href="https://bimsuisseromande.ch/" target="_blank" rel="noopener noreferrer">
+    <img class="logo" src="pict/logo.png" width="150px">
+    </a>
+    <h1>Marché des producteurs<br>Etalages</h1>
+        
+
+        
+    </div>
+    <div class="systeme">
+      <b>Categorie</b><hr>
+        <input pys-Onclick="syst1" id="btn-form1" class="fru" type="button" value="Fruits">
+        <br>
+        <input pys-Onclick="syst2" id="btn-form2" class="leg" type="button" value="Légumes">
+        <br>
+        <input pys-Onclick="syst3" id="btn-form3" class="poi" type="button" value="Poisson">
+        <br>
+      <div id="input"></div>
+    </div>
+    
+    <div class="equipement">
+      <b>Demande</b><hr>
+        
+        <div class="equip">
+        <p id="choix_syst" class="syst">-</p>
+       
+        <input type="text" id="saisie_rech" class="saisie" placeholder="Fraise, France, ... ">
+ 
+        <input pys-Onclick="rech_btn" id="saisie_btn" class="rech" type="button" value="Rechercher">
+        </div>
+        
+        <div class="liens">
+    <p>
+    <a href="https://bimsuisseromande.ch/" target="_blank" rel="noopener noreferrer">
+        BIM Suisse Romande</a>
+        <br>
+    <a href="https://www.pyscript.com/" target="_blank" rel="noopener noreferrer">
+        PyScript</a>
+    </p>
+        </div>
+        
+     
+        
+    </div>
+    
+    <div class="resultats">
+      <b>Résultats</b><hr>
+      <div id="output">
+          
+   
+        
+    <table class="table table-striped">
+  <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Syst</th>
+        <th scope="col">Desc Cat FR</th>
+        <th scope="col">Desc Cat EN</th>
+        <th scope="col">Origine</th>
+        <th scope="col">Prix (€/kg)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+        <th scope="row">1</th>
+        <td><p id="data1"></p></td>
+        <td><p id="data2"></p></td>
+        <td><p id="data3"></p></td>
+        <td><p id="data4"></p></td>
+        <td><p id="data5"></p></td>
+
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+        <td><p id="data6"></p></td>
+        <td><p id="data7"></p></td>
+        <td><p id="data8"></p></td>
+        <td><p id="data9"></p></td>
+        <td><p id="data10"></p></td>
+
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+        <td><p id="data11"></p></td>
+        <td><p id="data12"></p></td>
+        <td><p id="data13"></p></td>
+        <td><p id="data14"></p></td>
+        <td><p id="data15"></p></td>
+
+    </tr>
+       <tr>
+      <th scope="row">4</th>
+        <td><p id="data16"></p></td>
+        <td><p id="data17"></p></td>
+        <td><p id="data18"></p></td>
+        <td><p id="data19"></p></td>
+        <td><p id="data20"></p></td>
+
+    </tr>
+          <tr>
+      <th scope="row">5</th>
+        <td><p id="data21"></p></td>
+        <td><p id="data22"></p></td>
+        <td><p id="data23"></p></td>
+        <td><p id="data24"></p></td>
+        <td><p id="data25"></p></td>
+
+    </tr>
+      
+      
+  </tbody>
+</table>
+          
+          
+        </div>
+         
+    </div>
+  
+  </div>  
+    
+    <py-script src="./main.py"></py-script>
+    
+</body>
+
+</html>
